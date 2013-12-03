@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'haml'
-require 'euler'
+require './euler'
 
 get '/hi' do
     haml :hi
@@ -21,6 +21,8 @@ get %r{/euler/(\d+)} do |problem|
         1 => euler_1,
         2 => euler_2,
         3 => euler_3,
+        4 => euler_4,
+        5 => euler_5,
     }
 
     locals = {
