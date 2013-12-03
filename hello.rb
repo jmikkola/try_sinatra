@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'haml'
 require './euler'
+require './rpn'
 
 get '/hi' do
     haml :hi
@@ -39,4 +40,19 @@ get %r{/euler/(\d+)} do |problem|
     end
 
     haml template, :locals => locals
+end
+
+get '/rpn' do
+    render_rpn
+end
+
+post '/rpn' do
+    answer = eval_rpn params[:expression]
+    render_rpn answer
+end
+
+def render_rpn(answer=nil)
+    haml :rpn, :locals => {
+        :answer => answer,
+    }
 end

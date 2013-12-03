@@ -1,0 +1,18 @@
+!!!
+%html
+  %head
+    %title RPN
+  %body
+    %h1 RPN
+    - if answer
+      Result:
+      %strong=answer
+      %a(href='/rpn') (Clear)
+      %br
+      %hr
+    %form{:method => 'POST', :action => '/rpn'}
+      %label
+        Enter your expression:
+        %input{:type => 'text', :name => 'expression'}
+      %input{:type => 'submit', :value => 'Submit'}
+
