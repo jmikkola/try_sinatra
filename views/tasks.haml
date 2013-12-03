@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %title Tasks
+    :css
+      hint { padding: 0 5px; color: #AAA; font-size: 0.8em }
+  %body
+    %h1 Tasks
+    %form{:method => 'POST', :action => '/tasks'}
+      %input{:type => 'text', :name => 'task', :placeholder => 'Buy milk'}
+      %input{:type => 'submit', :value => 'Add'}
+    %ul.tasks
+      - tasks.each do |task|
+        %li
+          =task.title
+          %hint
+            =task.create_time.strftime '%Y-%m-%d %l:%m %P'

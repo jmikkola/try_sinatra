@@ -3,6 +3,8 @@ require 'haml'
 require './euler'
 require './rpn'
 
+require './models/task'
+
 get '/hi' do
     haml :hi
 end
@@ -55,4 +57,20 @@ def render_rpn(answer=nil)
     haml :rpn, :locals => {
         :answer => answer,
     }
+end
+
+get '/tasks' do
+    haml :tasks, :locals => {
+        :tasks => Task.all,
+    }
+end
+
+post '/tasks' do
+    task = Task.create(
+        :title => params[:task],
+        :create_time => Time.now,
+    )
+    task.save
+
+    redirect to('/tasks')
 end
