@@ -10,6 +10,7 @@ class Task
     property :id, Serial
     property :title, String
     property :create_time, DateTime
+    property :done_time, DateTime
 end
 
 DataMapper.finalize
