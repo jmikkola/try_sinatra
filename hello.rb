@@ -1,8 +1,9 @@
 require 'sinatra'
 require 'haml'
+require 'json'
+
 require './euler'
 require './rpn'
-
 require './models/task'
 
 get '/hi' do
@@ -66,6 +67,7 @@ get '/tasks' do
 end
 
 post '/tasks' do
+    content_type :json
     title = params[:task]
 
     if title
@@ -75,8 +77,8 @@ post '/tasks' do
         )
         task.save
 
-        title
+        {:success => true, :title => title}.to_json
     else
-        "No task title given: " + params.to_s
+        {:success => false, :error => "No task title given"}.to_json
     end
 end
