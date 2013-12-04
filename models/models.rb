@@ -2,6 +2,7 @@ require 'data_mapper'
 require './models/task'
 require './models/tag'
 
-DataMapper.setup(:default, 'sqlite3:///home/jeremy/projects/jruby/try_sinatra/test.db')
+db_path = Dir.pwd + '/test.db'
+DataMapper.setup(:default, 'sqlite3:///' + db_path)
 DataMapper.finalize
 #Task.auto_migrate! # Needed on first run
