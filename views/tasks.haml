@@ -5,6 +5,8 @@
     %script{ :type => 'text/javascript',
              :src => '//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js' }
     %script{ :type => 'text/javascript',
+             :src => '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js' }
+    %script{ :type => 'text/javascript',
              :src => 'tasks.js' }
     :css
       hint { padding: 0 5px; color: #AAA; font-size: 0.8em }
@@ -22,11 +24,11 @@
           %li
             =task.title
             %hint
-              =task.create_time.strftime '%Y-%m-%d %l:%m %P'
+              =task.create_time.strftime '%Y-%m-%d %l:%M %P'
         %li{:'ng-repeat' => 'task in tasks'}
           {{ task.task }}
           %hint
-            {{ task.time|date:'yyyy-MM-dd hh:mm a' }}
+            {{ task.time|date:'yyyy-MM-dd h:mm a' }}
 
     :javascript
       angular.bootstrap(document, ["tasks"]);

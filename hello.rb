@@ -61,16 +61,22 @@ end
 
 get '/tasks' do
     haml :tasks, :locals => {
-        :tasks => Task.all(:done_time => nil, :order => [ :create_time.desc ]),
+        :tasks => Task.all(:done_time => nil, :order => [ :create_time.asc ]),
     }
 end
 
 post '/tasks' do
-    task = Task.create(
-        :title => params[:task],
-        :create_time => Time.now,
-    )
-    task.save
+    title = params[:task]
 
-    params[:task]
+    if title
+        task = Task.create(
+            :title => params[:task],
+            :create_time => Time.now,
+        )
+        task.save
+
+        title
+    else
+        "No task title given: " + params.to_s
+    end
 end
