@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'data_mapper'
 
-DataMapper.setup(:default, 'sqlite3:///tmp/tasks.db')
+DataMapper.setup(:default, 'sqlite3:///home/jeremy/projects/jruby/try_sinatra/test.db')
 
 class Task
     include DataMapper::Resource
@@ -12,6 +12,5 @@ class Task
     property :create_time, DateTime
 end
 
-def update_db
-    DataMapper.auto_upgrade!
-end
+DataMapper.finalize
+#Task.auto_migrate! # Needed on first run
