@@ -5,7 +5,7 @@ class Task
 
     property :id, Serial
     property :title, String, :required => true
-    property :create_time, DateTime, :required => true
+    property :create_time, DateTime, :required => true, :default => lambda { |r, p| Time.now }
     property :done_time, DateTime
 
     has n, :task_tag
@@ -22,4 +22,8 @@ class Task
             :tags => tag_hashes,
         }
     end
+end
+
+def parse_task(description)
+    return {:task => description, :tags => []}
 end

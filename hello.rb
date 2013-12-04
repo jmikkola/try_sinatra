@@ -84,10 +84,12 @@ post '/tasks' do
     title = params[:task]
 
     if title
-        task = Task.create(
-            :title => params[:task],
-            :create_time => Time.now,
-        )
+        task_details = parse_task(title)
+
+        task = Task.create(:title => task_details[:task])
+        task_details[:tags].each do |tag|
+            task.tags << Tag.create(:tag => tag)
+        end
         task.save
 
         {:success => true, :task => task.to_hash}.to_json

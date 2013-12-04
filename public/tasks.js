@@ -36,9 +36,10 @@
                     if (data && data.error) {
                         message = data.error;
                     }
+                    console.log(data)
 
                     $scope.title = task;
-                    alert(data);
+                    alert(message);
                 }
 
                 post('/tasks', {task: task}, onSuccess, onError);
