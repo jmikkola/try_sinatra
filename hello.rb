@@ -110,3 +110,20 @@ post '/tasks/complete' do
 
     {:success => true}.to_json
 end
+
+get '/tasks/tag/:tag_name' do |tag_name|
+    tasks = Task.all(
+        :done_time => nil,
+        :task_tag => {tag_tag: tag_name},
+        :order => [ :create_time.asc ]
+    )
+    tasks_json = (tasks.map { |task| task.to_hash }).to_json
+
+    completed_count = Task.count(:done_time.not => nil, :task_tag => {:tag_tag => tag_name})
+
+    haml :tasks_tag, :locals => {
+        :tag_name => tag_name,
+        :tasks => tasks_json,
+        :completed => completed_count,
+    }
+end

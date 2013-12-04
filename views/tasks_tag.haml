@@ -11,15 +11,16 @@
 
   %body{:'data-tasks-app' => ''}
     %div.tasks{:'ng-controller' => 'TasksCtrl'}
-      %h1 Tasks
+      %h1
+        Tasks for tag
+        ="'#{tag_name}'"
+
+      %a{:href => '/tasks'} Back
+      %br
 
       %em
         =completed
         tasks completed
-
-      %div
-        %input{:type => 'text', :name => 'task', :placeholder => 'Buy milk', :'ng-model' => 'title'}
-        %button{:'ng-click' => 'addTask()'} Add task
 
       %ul.tasks
         %li{ :'ng-repeat' => 'task in tasks | filter:{done_time: null}',

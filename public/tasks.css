@@ -1,0 +1,20 @@
+.hint {
+    padding: 0 5px;
+    color: #566;
+    font-size: 0.9em;
+}
+
+.tag {
+    color: #5A6;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.complete {
+    color: #56A;
+    cursor: pointer;
+}
+
+.task {
+    padding: 5px 0;
+}
