@@ -1,5 +1,5 @@
 !!!
-%html{:'ng-app' => ''}
+%html
   %head
     %title Tasks
     %script{ :type => 'text/javascript',
@@ -8,14 +8,25 @@
              :src => 'tasks.js' }
     :css
       hint { padding: 0 5px; color: #AAA; font-size: 0.8em }
-  %body
-    %h1 Tasks
-    %form{:method => 'POST', :action => '/tasks'}
-      %input{:type => 'text', :name => 'task', :placeholder => 'Buy milk'}
-      %input{:type => 'submit', :value => 'Add'}
-    %ul.tasks
-      - tasks.each do |task|
-        %li
-          =task.title
+
+  %body{:'data-tasks-app' => ''}
+    %div.tasks{:'ng-controller' => 'TasksCtrl'}
+      %h1 Tasks
+
+      %div
+        %input{:type => 'text', :name => 'task', :placeholder => 'Buy milk', :'ng-model' => 'title'}
+        %button{:'ng-click' => 'addTask()'} Add task
+
+      %ul.tasks
+        - tasks.each do |task|
+          %li
+            =task.title
+            %hint
+              =task.create_time.strftime '%Y-%m-%d %l:%m %P'
+        %li{:'ng-repeat' => 'task in tasks'}
+          {{ task.task }}
           %hint
-            =task.create_time.strftime '%Y-%m-%d %l:%m %P'
+            {{ task.time|date:'yyyy-MM-dd hh:mm a' }}
+
+    :javascript
+      angular.bootstrap(document, ["tasks"]);
