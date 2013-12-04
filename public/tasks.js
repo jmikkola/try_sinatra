@@ -3,26 +3,45 @@
 
     var tasks = angular.module('tasks', []);
 
+    tasks.factory('post', [
+        '$http', function($http) {
+            function post(url, data, onSuccess, onError) {
+                var options = {
+                    url: url,
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    data: $.param(data)
+                };
+
+                $http(options).success(onSuccess).error(onError);
+            }
+
+            return post;
+        }
+    ]);
+
     tasks.controller('TasksCtrl', [
-        '$scope', '$http',
-        function($scope, $http) {
+        '$scope', 'post',
+        function($scope, post) {
             $scope.title = '';
             $scope.tasks = [];
 
             function saveTask(task) {
-                $scope.tasks.push({
-                    task: task,
-                    time: new Date()
-                });
+                function onSuccess(data) {
+                    $scope.tasks.push(data.task);
+                }
 
-                $http({
-                    url: '/tasks',
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    data: $.param({task: task})
-                });
+                function onError(data) {
+                    var message = 'error';
+                    if (data && data.error) {
+                        message = data.error;
+                    }
+
+                    $scope.title = task;
+                    alert(data);
+                }
+
+                post('/tasks', {task: task}, onSuccess, onError);
             }
 
             $scope.addTask = function() {
@@ -30,6 +49,21 @@
                     saveTask($scope.title);
                     $scope.title = '';
                 }
+            };
+        }
+    ]);
+
+    tasks.controller('TaskCtrl', [
+        '$scope', 'post',
+        function($scope, post) {
+            $scope.complete = function() {
+                function onSuccess() {
+                    $scope.task.done_time = new Date();
+                }
+                function onError() {
+                    alert('error');
+                }
+                post('/tasks/complete', {task_id: $scope.task.id}, onSuccess, onError);
             };
         }
     ]);

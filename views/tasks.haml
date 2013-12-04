@@ -25,10 +25,11 @@
             =task.title
             %hint
               =task.create_time.strftime '%Y-%m-%d %l:%M %P'
-        %li{:'ng-repeat' => 'task in tasks'}
-          {{ task.task }}
+        %li{:'ng-repeat' => 'task in tasks | filter:{done_time: null}', :'ng-controller' => 'TaskCtrl'}
+          {{ task.title }}
           %hint
-            {{ task.time|date:'yyyy-MM-dd h:mm a' }}
+            {{ task.create_time|date:'yyyy-MM-dd h:mm a' }}
+          %a{:'ng-click' => 'complete()'} Complete
 
     :javascript
       angular.bootstrap(document, ["tasks"]);

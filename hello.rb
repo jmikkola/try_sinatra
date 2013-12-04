@@ -77,8 +77,23 @@ post '/tasks' do
         )
         task.save
 
-        {:success => true, :title => title}.to_json
+        {:success => true, :task => task.to_hash}.to_json
     else
         {:success => false, :error => "No task title given"}.to_json
     end
+end
+
+post '/tasks/complete' do
+    content_type :json
+    task_id = params[:task_id]
+
+    task = Task.get(task_id)
+    if task.nil?
+        return {:success => false, :error => 'Task not found'}
+    end
+
+    task.done_time = Time.now
+    task.save
+
+    {:success => true}.to_json
 end

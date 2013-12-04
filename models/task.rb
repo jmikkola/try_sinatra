@@ -11,6 +11,10 @@ class Task
     property :title, String
     property :create_time, DateTime
     property :done_time, DateTime
+
+    def to_hash
+        { :id => id, :title => title, :create_time => create_time, :done_time => done_time }
+    end
 end
 
 DataMapper.finalize
