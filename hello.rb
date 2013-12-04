@@ -72,5 +72,5 @@ post '/tasks' do
     )
     task.save
 
-    redirect to('/tasks')
+    params[:task]
 end

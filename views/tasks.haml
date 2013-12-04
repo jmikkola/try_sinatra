@@ -1,7 +1,11 @@
 !!!
-%html
+%html{:'ng-app' => ''}
   %head
     %title Tasks
+    %script{ :type => 'text/javascript',
+             :src => '//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js' }
+    %script{ :type => 'text/javascript',
+             :src => 'tasks.js' }
     :css
       hint { padding: 0 5px; color: #AAA; font-size: 0.8em }
   %body

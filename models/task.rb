@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'data_mapper'
 
-DataMapper.setup(:default, 'sqlite3::memory:')
+DataMapper.setup(:default, 'sqlite3:///tmp/tasks.db')
 
 class Task
     include DataMapper::Resource
@@ -12,4 +12,6 @@ class Task
     property :create_time, DateTime
 end
 
-Task.auto_migrate!
+def update_db
+    DataMapper.auto_upgrade!
+end
