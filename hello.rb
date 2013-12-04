@@ -61,7 +61,7 @@ end
 
 get '/tasks' do
     haml :tasks, :locals => {
-        :tasks => Task.all,
+        :tasks => Task.all(:done_time => nil, :order => [ :create_time.desc ]),
     }
 end
 
