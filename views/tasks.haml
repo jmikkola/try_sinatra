@@ -9,22 +9,34 @@
     %script{ :type => 'text/javascript',
              :src => 'tasks.js' }
     :css
-      hint { padding: 0 5px; color: #AAA; font-size: 0.8em }
+      .hint { padding: 0 5px; color: #566; font-size: 0.8em }
+      .tag { color: #5A6; }
+      .complete { color: #56A; }
+      .task { padding: 5px 0; }
 
   %body{:'data-tasks-app' => ''}
     %div.tasks{:'ng-controller' => 'TasksCtrl'}
       %h1 Tasks
+
+      %em
+        =completed
+        tasks completed
 
       %div
         %input{:type => 'text', :name => 'task', :placeholder => 'Buy milk', :'ng-model' => 'title'}
         %button{:'ng-click' => 'addTask()'} Add task
 
       %ul.tasks
-        %li{:'ng-repeat' => 'task in tasks | filter:{done_time: null}', :'ng-controller' => 'TaskCtrl'}
+        %li{ :'ng-repeat' => 'task in tasks | filter:{done_time: null}',
+             :'ng-controller' => 'TaskCtrl',
+             :class => 'task', }
           {{ task.title }}
-          %hint
+          %span.hint
             {{ task.create_time|date:'yyyy-MM-dd h:mm a' }}
-          %a{:'ng-click' => 'complete()'} Complete
+          %br
+          %a{:'ng-click' => 'complete()', :class => 'complete'} Complete
+          %span{:'ng-repeat' => 'tag in task.tags', :class => 'tag'}
+            {{ tag.tag }}
 
     :javascript
       (function() {

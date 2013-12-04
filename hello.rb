@@ -1,10 +1,17 @@
+require 'rubygems'
 require 'sinatra'
 require 'haml'
 require 'json'
 
 require './euler'
 require './rpn'
-require './models/task'
+require './models/models'
+
+get '/migrate' do
+    Tag.auto_migrate!
+    TaskTag.auto_migrate!
+    'done'
+end
 
 get '/hi' do
     haml :hi
@@ -64,8 +71,11 @@ get '/tasks' do
     tasks = Task.all(:done_time => nil, :order => [ :create_time.asc ])
     tasks_json = (tasks.map { |task| task.to_hash }).to_json
 
+    completed_count = Task.count(:done_time.not => nil)
+
     haml :tasks, :locals => {
         :tasks => tasks_json,
+        :completed => completed_count,
     }
 end
 
