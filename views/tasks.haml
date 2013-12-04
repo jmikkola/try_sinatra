@@ -20,11 +20,6 @@
         %button{:'ng-click' => 'addTask()'} Add task
 
       %ul.tasks
-        - tasks.each do |task|
-          %li
-            =task.title
-            %hint
-              =task.create_time.strftime '%Y-%m-%d %l:%M %P'
         %li{:'ng-repeat' => 'task in tasks | filter:{done_time: null}', :'ng-controller' => 'TaskCtrl'}
           {{ task.title }}
           %hint
@@ -32,4 +27,7 @@
           %a{:'ng-click' => 'complete()'} Complete
 
     :javascript
-      angular.bootstrap(document, ["tasks"]);
+      (function() {
+        angular.module('tasks').constant('tasks', #{tasks});
+        angular.bootstrap(document, ['tasks']);
+      }());

@@ -61,8 +61,11 @@ def render_rpn(answer=nil)
 end
 
 get '/tasks' do
+    tasks = Task.all(:done_time => nil, :order => [ :create_time.asc ])
+    tasks_json = (tasks.map { |task| task.to_hash }).to_json
+
     haml :tasks, :locals => {
-        :tasks => Task.all(:done_time => nil, :order => [ :create_time.asc ]),
+        :tasks => tasks_json,
     }
 end
 

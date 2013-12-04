@@ -21,10 +21,10 @@
     ]);
 
     tasks.controller('TasksCtrl', [
-        '$scope', 'post',
-        function($scope, post) {
+        '$scope', 'post', 'tasks',
+        function($scope, post, tasks) {
             $scope.title = '';
-            $scope.tasks = [];
+            $scope.tasks = tasks;
 
             function saveTask(task) {
                 function onSuccess(data) {
