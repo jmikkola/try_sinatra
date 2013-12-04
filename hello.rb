@@ -87,9 +87,7 @@ post '/tasks' do
         task_details = parse_task(title)
 
         task = Task.create(:title => task_details[:task])
-        task_details[:tags].each do |tag|
-            task.tags << Tag.create(:tag => tag)
-        end
+        task.add_tags(task_details[:tags])
         task.save
 
         {:success => true, :task => task.to_hash}.to_json

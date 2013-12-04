@@ -11,6 +11,12 @@ class Task
     has n, :task_tag
     has n, :tag, :through => :task_tag
 
+    def add_tags(tag_array)
+        tag_array.each do |tag_name|
+            tag << Tag.get_or_create(tag_name)
+        end
+    end
+
     def to_hash
         tag_hashes = tag.map { |tag| tag.to_hash }
 
@@ -25,5 +31,8 @@ class Task
 end
 
 def parse_task(description)
-    return {:task => description, :tags => []}
+    tag_re = /\[\w+\]/
+    tags = description.scan(tag_re).map { |tag| tag.tr '[]', '' }
+    title = description.gsub(tag_re, '')
+    return { :task => title, :tags => tags }
 end
