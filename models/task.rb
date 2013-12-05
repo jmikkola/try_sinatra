@@ -33,6 +33,6 @@ end
 def parse_task(description)
     tag_re = /\[\w+\]/
     tags = description.scan(tag_re).map { |tag| tag.tr '[]', '' }
-    title = description.gsub(tag_re, '')
+    title = description.gsub(tag_re, '').strip()
     return { :task => title, :tags => tags }
 end
