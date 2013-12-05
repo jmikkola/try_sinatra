@@ -3,9 +3,11 @@ require 'sinatra'
 require 'haml'
 require 'json'
 
-require './euler'
 require './rpn'
 require './models/models'
+
+require './views/tasks'
+require './views/euler'
 
 get '/migrate' do
     Tag.auto_migrate!
@@ -28,28 +30,8 @@ def render_nav(solutions)
 end
 
 get %r{/euler/(\d+)} do |problem|
-    solutions = {
-        1 => euler_1,
-        2 => euler_2,
-        3 => euler_3,
-        4 => euler_4,
-        5 => euler_5,
-    }
-
-    locals = {
-        :prob_no => problem,
-        :nav => render_nav(solutions),
-    }
-
-    prob_num = Integer(problem)
-    if solutions.has_key?(prob_num)
-        locals[:answer] = solutions[prob_num]
-        template = :project_euler
-    else
-        template = :no_solution
-    end
-
-    haml template, :locals => locals
+    template, values = EulerView.new.render(problem)
+    haml template, :locals => values
 end
 
 get '/rpn' do
@@ -68,15 +50,8 @@ def render_rpn(answer=nil)
 end
 
 get '/tasks' do
-    tasks = Task.all(:done_time => nil, :order => [ :create_time.asc ])
-    tasks_json = (tasks.map { |task| task.to_hash }).to_json
-
-    completed_count = Task.count(:done_time.not => nil)
-
-    haml :tasks, :locals => {
-        :tasks => tasks_json,
-        :completed => completed_count,
-    }
+    template, values = TasksView.new.render
+    haml template, :locals => values
 end
 
 post '/tasks' do
