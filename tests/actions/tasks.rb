@@ -31,11 +31,8 @@ describe AddTaskAction do
         result = add_task_action.act('[tag1] [tag2] task with tags')
 
         expect(result[:success]).to eq(true)
-        task = result[:task]
-        expect(task[:title]).to eq('task with tags')
-        expect(task[:tags].length).to eq(2)
-        expect(task[:tags].include?({:tag => 'tag1'})).to eq(true)
-        expect(task[:tags].include?({:tag => 'tag2'})).to eq(true)
+        expect(result[:task][:title]).to eq('task with tags')
+        expect(result[:task][:tags].length).to eq(2)
 
         all_tasks = Task.all()
         expect(all_tasks.length).to eq(1)
