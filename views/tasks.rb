@@ -1,3 +1,5 @@
+require 'json'
+
 class TasksView
     def render
         return :tasks, values

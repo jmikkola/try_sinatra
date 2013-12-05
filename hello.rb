@@ -11,6 +11,8 @@ require './views/euler'
 
 require './actions/tasks'
 
+default_connect_and_finalize()
+
 get '/migrate' do
     Tag.auto_migrate!
     TaskTag.auto_migrate!
