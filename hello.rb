@@ -9,6 +9,8 @@ require './models/models'
 require './views/tasks'
 require './views/euler'
 
+require './actions/tasks'
+
 get '/migrate' do
     Tag.auto_migrate!
     TaskTag.auto_migrate!
@@ -56,19 +58,7 @@ end
 
 post '/tasks' do
     content_type :json
-    title = params[:task]
-
-    if title
-        task_details = parse_task(title)
-
-        task = Task.create(:title => task_details[:task])
-        task.add_tags(task_details[:tags])
-        task.save
-
-        {:success => true, :task => task.to_hash}.to_json
-    else
-        {:success => false, :error => "No task title given"}.to_json
-    end
+    AddTaskAction.new.act(params[:task]).to_json
 end
 
 post '/tasks/complete' do
