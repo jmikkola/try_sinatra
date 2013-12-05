@@ -63,17 +63,7 @@ end
 
 post '/tasks/complete' do
     content_type :json
-    task_id = params[:task_id]
-
-    task = Task.get(task_id)
-    if task.nil?
-        return {:success => false, :error => 'Task not found'}
-    end
-
-    task.done_time = Time.now
-    task.save
-
-    {:success => true}.to_json
+    CompleteAction.new.act(params[:task_id]).to_json
 end
 
 get '/tasks/tag/:tag_name' do |tag_name|

@@ -15,3 +15,16 @@ class AddTaskAction
         end
     end
 end
+
+class CompleteAction
+    def act(task_id)
+        task = Task.get(task_id)
+        if task.nil?
+            {:success => false, :error => 'Task not found'}
+        else
+            task.done_time = Time.now
+            task.save
+            {:success => true}
+        end
+    end
+end
